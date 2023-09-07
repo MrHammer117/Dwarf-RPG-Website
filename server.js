@@ -1,15 +1,32 @@
-var http = require('http');
-var fs = require('fs');
+const express = require('express')
+const app = express()
+const port=3000
 
-const PORT=8080; 
+//static files
+app.use(express.static('public'))
+app.use('/images', express.static(__dirname + 'public/images'))
 
-fs.readFile('./dwarvenHome.html', function (err, html) {
 
-    if (err) throw err;    
 
-    http.createServer(function(request, response) {  
-        response.writeHeader(200, {"Content-Type": "text/html"});  
-        response.write(html);  
-        response.end();  
-    }).listen(PORT);
-});
+app.get('', (req, res) => {
+    res.sendFile(__dirname + '/dwarvenHome.html')  
+    
+})
+app.get('/dwarfDemo.html', (req, res) => {
+    res.sendFile(__dirname + '/dwarfDemo.html')
+})
+app.get('/dwarfFeatures.html', (req, res) => {
+    res.sendFile(__dirname + '/dwarfFeatures.html')
+})
+app.get('/dwarfFeedback.html', (req, res) => {
+    res.sendFile(__dirname + '/dwarfFeedback.html')
+})
+app.get('/dwarvenHome.html', (req, res) => {
+    res.sendFile(__dirname + '/dwarvenHome.html')  
+})
+app.get('/default.css', (req, res) => {
+    res.sendFile(__dirname + '/default.css')  
+})
+
+// Listen in on port 3000
+app.listen(port, () => console.info('Listening on port ${port}'))
